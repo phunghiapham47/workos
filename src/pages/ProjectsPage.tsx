@@ -157,7 +157,7 @@ export default function ProjectsPage() {
               <button
                 type="button"
                 onClick={openAddProject}
-                className="inline-flex h-8 shrink-0 items-center gap-2 border border-black bg-black px-2.5 font-mono text-[10px] font-black uppercase tracking-[0.12em] text-white"
+                className="inline-flex h-8 shrink-0 items-center gap-2 border border-black bg-black px-2.5 font-mono text-[10px] font-black uppercase tracking-normal text-white"
               >
                 <Plus className="size-3.5" aria-hidden="true" />
                 Add Project
@@ -213,7 +213,7 @@ function ProjectMetric({
   return (
     <article className={['module-panel p-2 sm:p-2.5', className].join(' ')}>
       <p className="eyebrow">{label}</p>
-      <p className="mt-1.5 break-words text-lg font-black tracking-tight text-black sm:text-xl xl:text-2xl">
+      <p className="mt-1.5 break-words text-lg font-black tracking-normal text-black sm:text-xl xl:text-2xl">
         {value}
       </p>
       <p className="mt-0.5 text-[11px] font-bold text-slate-500">{note}</p>
@@ -240,7 +240,7 @@ function StatusFilterBar({
             type="button"
             onClick={() => onChange(status)}
             className={[
-              'h-8 shrink-0 border px-2.5 font-mono text-[10px] font-black uppercase tracking-[0.12em] transition',
+              'h-8 shrink-0 border px-2.5 font-mono text-[10px] font-black uppercase tracking-normal transition',
               isActive ? 'border-black bg-black text-white' : `${colorClass} hover:border-black hover:text-black`,
             ].join(' ')}
           >
@@ -274,7 +274,7 @@ function ProjectQueue({
         <span className="status-chip">{projects.length} PROJECTS</span>
       </div>
 
-      <div className="mt-3 hidden grid-cols-[minmax(0,1.2fr)_126px_104px_104px_92px] border border-b-0 border-slate-300 bg-slate-50 px-3 py-2 font-mono text-[10px] font-black uppercase tracking-[0.14em] text-slate-500 sm:grid">
+      <div className="mt-3 hidden grid-cols-[minmax(0,1.2fr)_126px_104px_104px_92px] border border-b-0 border-slate-300 bg-slate-50 px-3 py-2 font-mono text-[10px] font-black uppercase tracking-normal text-slate-500 sm:grid">
         <span>Project / Client</span>
         <span>Status</span>
         <span>Revenue</span>
@@ -298,7 +298,7 @@ function ProjectQueue({
             >
               <button type="button" onClick={() => onSelectProject(project)} className="min-w-0 text-left">
                 <p className="truncate text-sm font-black">{project.name}</p>
-                <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
+                <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-normal text-slate-500">
                   {project.client}
                 </p>
               </button>
@@ -308,7 +308,7 @@ function ProjectQueue({
                   value={project.status}
                   onChange={(event) => onUpdateStatus(project.id, event.target.value as ProjectStatus)}
                   className={[
-                    'h-8 w-full max-w-36 border px-2 font-mono text-[10px] font-black uppercase tracking-[0.08em] outline-none',
+                    'h-8 w-full max-w-36 border px-2 font-mono text-[10px] font-black uppercase tracking-normal outline-none',
                     getProjectStatusTone(project.status),
                   ].join(' ')}
                   aria-label={`Update status for ${project.name}`}
@@ -340,7 +340,7 @@ function ProjectQueue({
                     value={project.status}
                     onChange={(event) => onUpdateStatus(project.id, event.target.value as ProjectStatus)}
                     className={[
-                      'h-8 w-36 border px-2 font-mono text-[10px] font-black uppercase tracking-[0.08em] outline-none',
+                      'h-8 w-36 border px-2 font-mono text-[10px] font-black uppercase tracking-normal outline-none',
                       getProjectStatusTone(project.status),
                     ].join(' ')}
                     aria-label={`Update status for ${project.name}`}
@@ -432,17 +432,17 @@ function ProjectDetailPanel({
         </div>
       </div>
       <div className="mt-3 border border-slate-300 bg-slate-50 p-3">
-        <h2 className="text-lg font-black tracking-tight text-black">{project.name}</h2>
+        <h2 className="text-lg font-black tracking-normal text-black">{project.name}</h2>
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <span
             className={[
-              'border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-[0.12em]',
+              'border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-normal',
               getProjectStatusTone(project.status),
             ].join(' ')}
           >
             {project.status}
           </span>
-          <span className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
+          <span className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
             {project.client}
           </span>
         </div>
@@ -565,10 +565,10 @@ function ProjectEditor({
         </div>
 
         <div className="flex justify-end gap-2 border-t border-slate-300 p-3">
-          <button type="button" onClick={onClose} className="h-9 border border-slate-300 px-3 font-mono text-[10px] font-black uppercase tracking-[0.12em]">
+          <button type="button" onClick={onClose} className="h-9 border border-slate-300 px-3 font-mono text-[10px] font-black uppercase tracking-normal">
             Cancel
           </button>
-          <button type="submit" className="h-9 border border-black bg-black px-3 font-mono text-[10px] font-black uppercase tracking-[0.12em] text-white">
+          <button type="submit" className="h-9 border border-black bg-black px-3 font-mono text-[10px] font-black uppercase tracking-normal text-white">
             Save Project
           </button>
         </div>

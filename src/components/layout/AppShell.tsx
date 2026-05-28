@@ -33,7 +33,7 @@ export default function AppShell() {
               </div>
 
               <div className="hidden lg:block">
-                <h1 className="font-mono text-sm font-black uppercase tracking-[0.22em] text-black">
+                <h1 className="font-mono text-sm font-black uppercase tracking-normal text-black">
                   {currentRoute.title}
                 </h1>
               </div>

@@ -102,7 +102,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-start">
             <PixelRobot />
             <div className="relative min-w-0 border border-slate-300 bg-white px-3 py-2.5 before:absolute before:left-[-7px] before:top-5 before:h-3 before:w-3 before:rotate-45 before:border-b before:border-l before:border-slate-300 before:bg-white">
-              <h2 className="text-lg font-black tracking-tight text-black sm:text-2xl">
+              <h2 className="text-lg font-black tracking-normal text-black sm:text-2xl">
                 {dashboard.mission}
               </h2>
               <p className="mt-1.5 text-sm leading-5 text-slate-600">
@@ -119,7 +119,7 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => void handleCopyReport()}
-              className="col-span-2 inline-flex h-8 w-fit shrink-0 items-center justify-center gap-2 border border-black bg-white px-2.5 font-mono text-[10px] font-black uppercase tracking-[0.12em] text-black transition hover:bg-black hover:text-white sm:col-span-1"
+              className="col-span-2 inline-flex h-8 w-fit shrink-0 items-center justify-center gap-2 border border-black bg-white px-2.5 font-mono text-[10px] font-black uppercase tracking-normal text-black transition hover:bg-black hover:text-white sm:col-span-1"
             >
               {copyState === 'copied' ? (
                 <ClipboardCheck className="size-3.5" aria-hidden="true" />
@@ -161,13 +161,13 @@ export default function DashboardPage() {
       {undoSnapshot ? (
         <div className="fixed bottom-20 left-3 right-3 z-50 border border-black bg-white px-3 py-2 shadow-[3px_3px_0_#020617] sm:bottom-4 sm:left-auto sm:right-4 sm:w-80">
           <div className="flex items-center justify-between gap-3">
-            <p className="min-w-0 truncate font-mono text-[10px] font-black uppercase tracking-[0.12em] text-black">
+            <p className="min-w-0 truncate font-mono text-[10px] font-black uppercase tracking-normal text-black">
               Done: {undoSnapshot.task.title}
             </p>
             <button
               type="button"
               onClick={handleUndoTask}
-              className="h-7 shrink-0 border border-black px-2 font-mono text-[10px] font-black uppercase tracking-[0.12em]"
+              className="h-7 shrink-0 border border-black px-2 font-mono text-[10px] font-black uppercase tracking-normal"
             >
               Undo
             </button>
@@ -202,19 +202,19 @@ function ActionTaskQueue({ items, onComplete }: { items: ActionTask[]; onComplet
 
       <div className="mt-3 divide-y divide-slate-200 border border-slate-300">
         {items.length === 0 ? (
-          <div className="px-3 py-3 font-mono text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+          <div className="px-3 py-3 font-mono text-[10px] font-black uppercase tracking-normal text-slate-400">
             Clear
           </div>
         ) : (
           items.map((item) => (
             <div key={item.id} className="grid gap-2 px-3 py-2 sm:grid-cols-[70px_minmax(0,1fr)_auto_auto] sm:items-center">
-              <p className="font-mono text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
+              <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
                 {item.date}
               </p>
               <p className="min-w-0 text-sm font-bold text-black">{item.title}</p>
               <span
                 className={[
-                  'w-fit border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-[0.12em]',
+                  'w-fit border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-normal',
                   getTaskTone(item.status),
                 ].join(' ')}
               >
@@ -249,14 +249,14 @@ function ActiveProjectQueue({ projects }: { projects: Project[] }) {
           <div key={project.id} className="grid gap-2 px-3 py-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
             <div className="min-w-0">
               <p className="truncate text-sm font-black text-black">{project.name}</p>
-              <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
+              <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-normal text-slate-500">
                 {project.client}
               </p>
               <p className="mt-1 truncate text-xs font-bold text-slate-500">{project.note}</p>
             </div>
             <span
               className={[
-                'w-fit border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-[0.12em]',
+                'w-fit border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-normal',
                 getProjectStatusTone(project.status),
               ].join(' ')}
             >

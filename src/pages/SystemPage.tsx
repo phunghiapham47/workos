@@ -27,7 +27,7 @@ export default function SystemPage() {
                 <span className="block text-sm font-black text-black">{action.label}</span>
                 <span className="mt-1 block text-xs leading-5 text-slate-500">{action.description}</span>
               </span>
-              <span className="font-mono text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">
+              <span className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
                 Ready
               </span>
             </button>
@@ -37,8 +37,8 @@ export default function SystemPage() {
 
       <article className="module-panel border-t-2 border-t-black p-3 sm:p-4">
         <p className="eyebrow">Version</p>
-        <p className="mt-3 text-3xl font-black tracking-tight text-black">v1.0-workos</p>
-        <p className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+        <p className="mt-3 text-3xl font-black tracking-normal text-black">v1.0-workos</p>
+        <p className="mt-2 text-xs font-bold uppercase tracking-normal text-slate-500">
           WorkOS local shell
         </p>
       </article>

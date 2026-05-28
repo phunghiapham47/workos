@@ -83,7 +83,7 @@ export default function TasksPage() {
         <button
           type="button"
           onClick={addTask}
-          className="inline-flex h-9 items-center justify-center gap-2 border border-black bg-black px-3 font-mono text-[10px] font-black uppercase tracking-[0.12em] text-white sm:self-end"
+          className="inline-flex h-9 items-center justify-center gap-2 border border-black bg-black px-3 font-mono text-[10px] font-black uppercase tracking-normal text-white sm:self-end"
         >
           <Plus className="size-3.5" aria-hidden="true" />
           Add Task
@@ -101,10 +101,10 @@ export default function TasksPage() {
               activeTab === tab ? 'border-black bg-slate-50 shadow-[inset_0_-3px_0_#020617]' : '',
             ].join(' ')}
           >
-            <span className={['inline-flex border px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-[0.1em] sm:text-[10px]', getTaskTone(tab)].join(' ')}>
+            <span className={['inline-flex border px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-normal sm:text-[10px]', getTaskTone(tab)].join(' ')}>
               {tab}
             </span>
-            <span className="mt-2 block text-2xl font-black tracking-tight text-black">
+            <span className="mt-2 block text-2xl font-black tracking-normal text-black">
               {groups[tab].length}
             </span>
           </button>
@@ -114,14 +114,14 @@ export default function TasksPage() {
       <article className="module-panel min-w-0 overflow-hidden p-3 sm:p-4">
         <div className="flex items-center justify-between gap-4">
           <p className="eyebrow">Task Registry</p>
-          <span className={['border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-[0.12em]', getTaskTone(activeTab)].join(' ')}>
+          <span className={['border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-normal', getTaskTone(activeTab)].join(' ')}>
             {activeTab}
           </span>
         </div>
 
         <div className="mt-3 divide-y divide-slate-200 border border-slate-300">
           {visibleTasks.length === 0 ? (
-            <div className="px-3 py-3 font-mono text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+            <div className="px-3 py-3 font-mono text-[10px] font-black uppercase tracking-normal text-slate-400">
               Clear
             </div>
           ) : (
@@ -151,13 +151,13 @@ export default function TasksPage() {
       {undoSnapshot ? (
         <div className="fixed bottom-20 left-3 right-3 z-50 border border-black bg-white px-3 py-2 shadow-[3px_3px_0_#020617] sm:bottom-4 sm:left-auto sm:right-4 sm:w-80">
           <div className="flex items-center justify-between gap-3">
-            <p className="min-w-0 truncate font-mono text-[10px] font-black uppercase tracking-[0.12em] text-black">
+            <p className="min-w-0 truncate font-mono text-[10px] font-black uppercase tracking-normal text-black">
               Done: {undoSnapshot.task.title}
             </p>
             <button
               type="button"
               onClick={undoCompleteTask}
-              className="h-7 shrink-0 border border-black px-2 font-mono text-[10px] font-black uppercase tracking-[0.12em]"
+              className="h-7 shrink-0 border border-black px-2 font-mono text-[10px] font-black uppercase tracking-normal"
             >
               Undo
             </button>
@@ -187,14 +187,14 @@ function TaskRow({
 
   return (
     <div className={['grid gap-2 px-3 py-2 sm:grid-cols-[70px_minmax(0,1fr)_auto] sm:items-center', isDone ? 'opacity-55' : ''].join(' ')}>
-      <p className="font-mono text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
+      <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
         {formatDateLabel(task.dueDate)}
       </p>
       <div className="min-w-0">
         <p className={['truncate text-sm font-black', isDone ? 'text-slate-500 line-through' : 'text-black'].join(' ')}>
           {task.title}
         </p>
-        <span className={['mt-1 inline-flex border px-2 py-0.5 font-mono text-[10px] font-black uppercase tracking-[0.12em]', getTaskTone(tab)].join(' ')}>
+        <span className={['mt-1 inline-flex border px-2 py-0.5 font-mono text-[10px] font-black uppercase tracking-normal', getTaskTone(tab)].join(' ')}>
           {tab}
         </span>
       </div>
@@ -212,7 +212,7 @@ function TaskRow({
           <button
             type="button"
             onClick={() => onUndo(task.id)}
-            className="h-8 border border-slate-300 bg-white px-2 font-mono text-[10px] font-black uppercase tracking-[0.12em] text-slate-700"
+            className="h-8 border border-slate-300 bg-white px-2 font-mono text-[10px] font-black uppercase tracking-normal text-slate-700"
             aria-label={`Undo ${task.title}`}
           >
             Undo
@@ -285,10 +285,10 @@ function TaskEditor({
           </label>
         </div>
         <div className="flex justify-end gap-2 border-t border-slate-300 p-3">
-          <button type="button" onClick={onClose} className="h-9 border border-slate-300 px-3 font-mono text-[10px] font-black uppercase tracking-[0.12em]">
+          <button type="button" onClick={onClose} className="h-9 border border-slate-300 px-3 font-mono text-[10px] font-black uppercase tracking-normal">
             Cancel
           </button>
-          <button type="submit" className="h-9 border border-black bg-black px-3 font-mono text-[10px] font-black uppercase tracking-[0.12em] text-white">
+          <button type="submit" className="h-9 border border-black bg-black px-3 font-mono text-[10px] font-black uppercase tracking-normal text-white">
             Save Task
           </button>
         </div>
