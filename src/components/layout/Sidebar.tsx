@@ -6,35 +6,31 @@ const navigationItems = [
     label: 'Dashboard',
     path: '/',
     icon: BarChart3,
-    code: 'DASH',
   },
   {
     label: 'Projects',
     path: '/projects',
     icon: FolderKanban,
-    code: 'PROJ',
   },
   {
     label: 'Tasks',
     path: '/tasks',
     icon: CheckSquare,
-    code: 'TASK',
   },
   {
     label: 'System',
     path: '/system',
     icon: Settings2,
-    code: 'SYS',
   },
 ]
 
 export function WorkOSMark({ compact = false }: { compact?: boolean }) {
   return (
     <div className={compact ? '' : 'border-b border-black pb-5'}>
-      <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-slate-500">
+      <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
         Personal Work Operating System
       </p>
-      <p className={compact ? 'mt-1 text-2xl font-black tracking-tight text-black' : 'mt-2 text-3xl font-black tracking-tight text-black'}>
+      <p className={compact ? 'mt-1 text-2xl font-black tracking-normal text-black' : 'mt-2 text-3xl font-black tracking-normal text-black'}>
         WorkOS
       </p>
     </div>
@@ -54,7 +50,7 @@ export function Sidebar() {
             end={item.path === '/'}
             className={({ isActive }) =>
               [
-                'group flex h-10 items-center justify-between border px-2.5 text-xs font-black uppercase tracking-[0.08em] transition',
+                'group flex h-10 items-center border px-2.5 text-xs font-black uppercase tracking-normal transition',
                 isActive
                   ? 'border-black bg-black text-white'
                   : 'border-slate-200 bg-white text-slate-700 hover:border-slate-400 hover:text-black',
@@ -65,7 +61,6 @@ export function Sidebar() {
               <item.icon className="size-4" aria-hidden="true" />
               {item.label}
             </span>
-            <span className="font-mono text-[10px] opacity-60">{item.code}</span>
           </NavLink>
         ))}
       </nav>
@@ -86,7 +81,7 @@ export function MobileNavigation() {
           end={item.path === '/'}
           className={({ isActive }) =>
             [
-              'flex h-16 flex-col items-center justify-center gap-1 font-mono text-[10px] font-bold uppercase tracking-[0.08em]',
+              'flex h-16 flex-col items-center justify-center gap-1 font-mono text-[10px] font-bold uppercase tracking-normal',
               isActive ? 'bg-black text-white' : 'text-slate-500',
             ].join(' ')
           }
