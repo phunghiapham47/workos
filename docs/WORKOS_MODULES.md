@@ -1,681 +1,354 @@
-# WORKOS — Module Planning v1
+# WORKOS — Module Architecture
 
-# SYSTEM IDENTITY
+## System Identity
 
 PERSONAL WORK OPERATING SYSTEM
 
 WorkOS
 
----
+WorkOS is the primary UI architecture reference for the personal operating system ecosystem.
 
-# CORE PHILOSOPHY
+DebtOS has been aligned to WorkOS UI architecture. Shared ecosystem patterns now include navigation, module panels, button/icon controls, modal/sheet rhythm, spacing, typography, and operational density.
+
+## Core Philosophy
 
 WorkOS is:
-- A personal operational system
-- A tactical execution interface
-- A lightweight workflow cockpit
-- A command center for Account Executive work
 
-WorkOS is NOT:
-- A SaaS productivity platform
-- A collaboration workspace
-- A Notion/Trello clone
-- An enterprise PM tool
+- Personal operational system
+- Tactical execution interface
+- Lightweight workflow cockpit
+- Daily operational command system
 
-Core direction:
-- Minimal
-- Operational
-- Fast
-- Mechanical
-- Personalized
-- Low-friction
+WorkOS is not:
 
----
+- Startup SaaS dashboard
+- Enterprise PM tool
+- Consumer productivity app
+- Collaboration workspace
+- Notion/Trello clone
 
-# UI DIRECTION
+Priority order:
 
-Inspired by:
-- DebtOS
-- Tactical dashboards
-- Retro terminal systems
-- Mission control interfaces
+1. Operational clarity
+2. Fast workflow interaction
+3. Stability
+4. Mobile usability
+5. Real-world daily usage refinement
+6. Small UI polish only when useful
 
-Rules:
-- Monochrome UI
-- Strong typography
-- Thin borders
-- Grid layout
-- No feature bloat
-- No fake toggles
-- No modern SaaS feeling
+## UI Direction
 
----
+Visual language:
 
-# APPLICATION STRUCTURE
+- Industrial operating system
+- Dense operational workflow UI
+- Square panels
+- Strong borders
+- Subtle module shadows
+- Monochrome icons
+- Compact layout hierarchy
+- Tactical spacing rhythm
+- Grid-system aesthetic
+
+Avoid:
+
+- Glassmorphism
+- Soft rounded startup dashboard style
+- Decorative gradients
+- Glossy UI
+- Excessive whitespace
+- Heavy redesigns
+- Feature bloat
+
+## Application Structure
 
 Primary modules:
+
 - Dashboard
 - Projects
 - Tasks
 - System
 
+Routes:
+
+- `/`
+- `/projects`
+- `/tasks`
+- `/system`
+
 Default route:
+
 - Dashboard
 
 Desktop behavior:
+
 - Sidebar + content layout
-- Right-side detail panel
+- Sticky app header
+- Right-side detail panel where useful
 
 Mobile behavior:
+
 - Bottom navigation
-- Full-screen detail view
+- Sticky app header
+- Full-screen sheet/detail view where useful
+- Compact rows and reduced vertical waste
 
-No:
-- Command bar
-- Complex routing
-- Multi-page editing flows
+## Shared UI Primitives
 
----
+Shared across WorkOS and aligned ecosystem apps:
 
-# MODULE 1 — DASHBOARD
+- Desktop sidebar structure
+- Mobile bottom navigation
+- Sticky app header
+- Module panel system
+- Subtle module shadows
+- Button and icon button system
+- Status chips
+- Registry rows
+- Detail panels
+- Modal/sheet rhythm
+- Compact form controls
+- Spacing and typography rhythm
 
-## Purpose
+Rules:
 
-Dashboard is the operational command center of WorkOS.
+- Panels stay square and industrial.
+- Borders provide structure before color.
+- Shadows are subtle, not decorative.
+- Icons stay monochrome.
+- Color is reserved for tactical status scanning.
 
-Opening the app should instantly answer:
-- What needs attention today?
-- How many projects are active?
-- How much outstanding exposure exists?
-- Is operational flow stable?
+## Dashboard
 
----
+Purpose:
 
-# DASHBOARD STRUCTURE
+Dashboard answers:
 
-## Row 1 — Mission Panel
+```text
+What requires action today?
+```
 
-### Left Side
-Robot + operational message.
+It is not a high-level analytics overview.
+
+Current structure:
+
+1. Robot speech panel
+2. Project Status count panel
+3. Overdue + Today action queue
+4. Running projects
+5. Monday Report copy action
 
 Robot:
-- Same personalized style direction as DebtOS
-- Pixel / terminal mascot
-- Operational companion
 
-Mission message examples:
-- WORKLOAD OVERFLOW DETECTED.
-- EXECUTION PIPELINE ACTIVE.
-- OPERATIONAL FLOW STABLE.
-- FREE TODAY.
-- OUTSTANDING COLLECTION REQUIRED.
+- Uses the approved DebtOS PixelRobot geometry.
+- Stays compact.
+- Speaks through a speech-card layout.
+- Should not be redesigned or turned into a mascot.
 
-Subtext examples:
-- Clear overdue queue before escalation.
-- Stabilize active pipeline.
-- No active obligations detected.
+Project Status:
 
----
+- Count-based only.
+- No weighted progress.
+- No ambiguous progress ratios.
+- Status order:
+  - Planning
+  - In Progress
+  - Review
+  - Payment
+  - Done
 
-## Right Side — Project Progress
+Action Queue:
 
-Purpose:
-Show weighted operational progress of active projects.
+- Shows only overdue and today tasks.
+- Supports quick Done action.
+- Supports undo through shared state.
+- Does not mix project rows into the task queue.
 
-This is NOT real completion percentage.
+Running Projects:
 
-Status weights:
-- Lead/Brief → 10%
-- Planning → 25%
-- In progress → 60%
-- Nghiệm thu → 85%
-- Chờ thanh toán → 95%
-- Done → 100%
+- Shows active projects only.
+- Displays project name, client, status, and short note.
+- Avoid fake counters or analytics.
 
-Operational states:
-- STABLE
-- ACTIVE
-- WARNING
-- OVERLOAD
+Monday Report:
 
----
+- Copies formatted operational lines to clipboard.
+- No export/download modal.
+- No reporting dashboard.
 
-# Row 2 — Operational Cards
-
-Only 3 primary cards.
-
----
-
-## Card 1 — Active Pipeline
-
-Displays:
-- Total active projects
-- Excludes Done
-
-Suggested labels:
-- ACTIVE PIPELINE
-- CURRENT OPERATIONS
-
----
-
-## Card 2 — Outstanding Exposure
-
-Displays:
-- Total outstanding amount
-- Projects in:
-  - Nghiệm thu
-  - Chờ thanh toán
-
-Suggested labels:
-- OUTSTANDING EXPOSURE
-- PENDING COLLECTION
-- OPEN AMOUNT
-
-Currency:
-- excl.VAT
-
----
-
-## Card 3 — Today Load
-
-Displays:
-- Tasks due today
-- Overdue tasks
-
-If empty:
-Display:
-FREE TODAY.
-
-Visual direction:
-- Large typography
-- Spacious layout
-- Calm operational state
-
----
-
-# Row 3 — Today Queue
-
-Priority logic:
-1. Overdue tasks
-2. Tasks due today
-3. Nghiệm thu projects
-4. Chờ thanh toán projects
-
-Display:
-- Compact operational list
-- Maximum 3–5 items
-
-Fields:
-- Date
-- Title
-- Status
-
----
-
-# Row 4 — Active Project Queue
-
-Displays:
-- Active projects only
-- Compact operational visibility
-
-Fields:
-- Project name
-- Client
-- Status
-- Outstanding amount
-- Small operational note
-
----
-
-# MONDAY REPORT
+## Projects
 
 Purpose:
-Generate formatted Monday operational report.
 
-Action:
-COPY MONDAY REPORT
+Projects is the operational execution registry.
 
-Behavior:
-- Copy preformatted text to clipboard
-- Designed for sending quick weekly updates
+Workflow statuses:
 
-Avoid:
-- Analytics systems
-- Reporting dashboards
-- Charts
-
----
-
-# MODULE 2 — PROJECTS
-
-## Purpose
-
-Projects module is the operational execution engine of WorkOS.
-
-Dashboard provides visibility.
-Projects provide execution tracking.
-
-The module must remain:
-- Lightweight
-- Fast
-- Minimal
-- AE-focused
-
-Avoid:
-- Enterprise PM complexity
-- Team collaboration systems
-- Heavy workflows
-
----
-
-# PROJECT WORKFLOW
-
-Statuses:
-- Lead/Brief
 - Planning
-- In progress
-- Nghiệm thu
-- Chờ thanh toán
+- In Progress
+- Review
+- Payment
 - Done
 
-Done state should:
-- Be visually de-emphasized
-- Use lower visual priority
-- Feel archived
+Done state:
 
-WorkOS should focus on:
-current operations.
+- Visually muted.
+- Lower priority.
+- Operationally archived.
 
----
+Top metrics:
 
-# PROJECT DATA STRUCTURE
-
-Required fields:
-- Project Name
-- Client
-- Status
-
-Optional fields:
-- Revenue
-- Paid Amount
-- Note
-
-System fields:
-- Created Date
-- Updated Date
-
-Avoid:
-- PIC
-- Assignee
-- Priority
-- Tags
-- Team roles
-- Attachments
-- Comment threads
-- Complex deadlines
-
----
-
-# FINANCE LOGIC
-
-Finance exists directly inside Projects.
-
-Fields:
-- Revenue
-- Paid
-- Outstanding
-
-Formula:
-
-Outstanding = Revenue - Paid
-
-Dashboard pulls:
-- Outstanding exposure
-- Active pipeline value
-- Pending collection amount
-
-Revenue:
-- excl.VAT by default
-
-Paid:
-- Stores total paid amount only
-- Supports advance payment logic
-
----
-
-# PROJECTS PAGE STRUCTURE
-
-## Header
-Operational overview cards:
 - Active Pipeline
 - Pipeline Value
-- Outstanding Exposure
-
----
-
-## Status Chips
-
-Compact operational filters:
-- ALL
-- LEAD/BRIEF
-- PLANNING
-- IN PROGRESS
-- NGHIỆM THU
-- CHỜ THANH TOÁN
-- DONE
-
-Style:
-- Tactical
-- Minimal
-- Monochrome
-- Count-based
-
----
-
-## Project Queue
-
-Main operational list.
-
-Suggested row structure:
-
-Left:
-- Project name
-- Client
-- Small operational note
-
-Right:
-- Revenue
-- Status
-- Outstanding amount
-
----
-
-## Project Detail Panel
-
-Minimal operational detail only.
-
-Fields:
-- Project Name
-- Client
-- Status
-- Revenue
-- Paid
 - Outstanding
-- Note
+- Paid Received
 
-Removed:
-- Next Action
-- Finance Summary
-- Quick Actions
+Finance logic:
 
-Reason:
-Avoid enterprise SaaS feeling.
-Keep WorkOS lean and system-focused.
+- Revenue is stored as excl.VAT by default.
+- Paid stores total received amount.
+- Outstanding for a project is `revenue - paid`.
+- Outstanding Exposure metric only counts projects in `Payment`.
+- Paid Received is the sum of paid amounts.
 
----
+Project queue:
 
-# MODULE 3 — TASKS
+- Compact operational registry.
+- Active projects prioritized.
+- Mobile cards stay dense.
+- Revenue and Outstanding sit side by side on mobile.
+- Status, Edit, and Delete actions share one row on mobile.
 
-## Purpose
+Detail panel:
 
-Tasks module is the micro execution queue of WorkOS.
+- Desktop: right-side inspection panel.
+- Mobile: full-screen sheet.
+- Prioritize status, outstanding, revenue, paid, and note.
 
-Projects manage long-term operations.
-Tasks manage short-term execution.
+Do not add:
 
-Tasks should feel:
+- Assignees
+- Priority
+- Comments
+- Attachments
+- Kanban
+- Analytics
+- Team features
+
+## Tasks
+
+Purpose:
+
+Tasks is the micro execution queue.
+
+Tasks are:
+
 - Fast
 - Disposable
-- Lightweight
 - Operational
+- Independent from projects
+
+Current structure:
+
+- Quick input
+- Compact counters
+- One filtered task registry
+- Tabs:
+  - Overdue
+  - Today
+  - Upcoming
+  - Done
+
+Supported actions:
+
+- Add task
+- Edit task
+- Complete task
+- Undo task
+- Delete task
+
+Quick input:
+
+```text
+25/05 - Follow payment Vinamilk
+```
+
+Rules:
+
+- If no date is provided, assign today.
+- Done tasks can be restored.
+- Restore uses previous task state where available.
+- If previous status is not available, grouping derives from due date.
 
 Avoid:
-- Heavy task management systems
-- Productivity SaaS complexity
-- Multi-layer workflows
 
----
+- Kanban
+- Calendar view
+- Recurring logic
+- Automation
+- AI parsing
+- Heavy task management behavior
 
-# TASK PHILOSOPHY
-
-Tasks are used for:
-- Quick reminders
-- Daily execution
-- Follow-ups
-- Small operational actions
-- Mental unload
-
-Tasks are NOT:
-- Project management
-- Planning systems
-- Workflow engines
-
----
-
-# TASK INPUT SYSTEM
-
-Input structure:
-
-DD/MM — Task content
-
-Examples:
-- 29/5 — Follow payment Coca
-- 30/5 — Send proposal Nutifood
-- 05/10 — Check client payment
-
-Behavior:
-- Press Enter to add
-- Auto parse due date
-- No due date = current day
+## System
 
 Purpose:
-Fast operational capture.
 
----
+System is a lightweight maintenance layer.
 
-# TASK PAGE STRUCTURE
+Current contents only:
 
-## Header Cards
+- Backup Snapshot
+- Version
 
-Displays:
-- TO-DO
-- DONE
-- OVERDUE
+Current version label:
 
-No additional metrics needed.
-
----
-
-## Input Bar
-
-Single large command-style input.
-
-Example:
-
-+ DD/MM — Công việc cần làm...
-
-Design direction:
-- Command line feeling
-- Fast entry
-- Minimal friction
-
----
-
-## Task Queue
-
-Simple operational list.
-
-Structure:
-- Due Date
-- Task Title
-- Status
-- Delete action
-
-Sort priority:
-1. Overdue
-2. Today
-3. Upcoming
-4. Done
-
-Done tasks:
-- Lower opacity
-- Lower visual priority
-
----
-
-# TASK GROUPING
-
-Tasks grouped by:
-- OVERDUE
-- TODAY
-- Monthly sections
-- DONE
-
-Examples:
-- MAY 2026
-- JUN 2026
-- OCT 2026
-
-Purpose:
-Support long-term operational reminders.
-
----
-
-# FREE TODAY STATE
-
-If:
-- No overdue tasks
-- No today tasks
-
-Display:
-
-FREE TODAY.
-
-Subtext:
-No active operational queue.
-
-Visual direction:
-- Large whitespace
-- Calm operational state
-- Minimal UI
-
-Purpose:
-The system should feel “clean”.
-
----
-
-# TASK UX RULES
-
-Required:
-- Fast add
-- Fast complete
-- Fast delete
-- Minimal interaction cost
-
-Avoid:
-- Modals
-- Task detail pages
-- Kanban systems
-- Calendar views
-- Multi-view complexity
-
-Tasks should feel like:
-instant operational logging.
-
----
-
-# MODULE 4 — SYSTEM
-
-## Purpose
-
-System module is a lightweight maintenance layer.
-
-Inspired directly by:
-DebtOS Settings/System philosophy.
-
-The module should remain:
-- Extremely minimal
-- Utility-focused
-- Operational
-
----
-
-# SYSTEM STRUCTURE
-
-## Backup Snapshot
-
-Purpose:
-Create local recovery snapshot.
-
-Display:
-
-[ Backup Snapshot ]
-Create local recovery snapshot
-
----
-
-## Logout
-
-Purpose:
-End current session.
-
-Display:
-
-[ Logout ]
-End current session
-
----
-
-## Version Label
-
-Purpose:
-Show current build version.
-
-Example:
-
+```text
 v1.0-workos
+```
 
----
+Removed because there is no login/auth:
 
-# SYSTEM RULES
+- Logout
 
-Do NOT include:
-- Notification systems
-- Theme settings
+Removed to keep System minimal:
+
+- Export Data
+- Route/state placeholder blocks
+- Settings complexity
 - Sync toggles
-- Integrations
 - Profile systems
-- Export systems
-- User preferences
 
-Supabase sync:
-- Is infrastructure
-- NOT a user setting
+## Current Technical State
 
----
+- Build passes.
+- Lint passes.
+- Desktop QA passed.
+- Mobile responsive QA passed.
+- No horizontal overflow detected.
+- Supabase persistence is active.
+- Dashboard, Projects, and Tasks read from `WorkOSProvider`.
+- App opens directly to Dashboard.
+- No auth is implemented.
 
-# SYSTEM FEELING
+## Known Risk Areas
 
-System page should feel like:
-- A maintenance utility panel
-- A tactical system layer
-- A lightweight operational backend
+- Dirty files should be reviewed before deployment and staged by phase.
+- Supabase schema must stay aligned with current app mapping.
+- `tasks.completed` is the database source for UI task done state.
+- No auth or user-level data partitioning exists yet.
+- Large UI refactors risk breaking the stabilized ecosystem pattern.
 
-NOT:
-- A settings-heavy SaaS page
-- A customization center
-- A profile dashboard
+## Safe Work Process
 
----
+For future changes:
 
-# OVERALL SYSTEM FEELING
-
-WorkOS should feel like:
-- A mission control interface
-- A tactical execution console
-- A personal workflow operating system
-
-NOT:
-- A startup SaaS dashboard
-- A collaboration workspace
-- A colorful productivity tool
+1. Work in small phases.
+2. Avoid large one-shot refactors.
+3. Preserve current Supabase mapping unless intentionally migrating schema.
+4. Run `npm run build`.
+5. Run `npm run lint`.
+6. Start local dev server before commit.
+7. QA desktop.
+8. QA mobile.
+9. Check no horizontal overflow.
+10. Verify Supabase flows if persistence is touched.

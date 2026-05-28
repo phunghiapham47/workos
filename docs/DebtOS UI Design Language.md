@@ -1,5 +1,37 @@
 # DebtOS UI Design Language
 
+## 0. Ecosystem Alignment Note
+
+WorkOS is now the primary UI architecture reference for the personal operating system ecosystem.
+
+DebtOS has been aligned to WorkOS at the shell and primitive level:
+- Desktop sidebar structure.
+- Mobile bottom navigation.
+- Sticky app header.
+- Square module panel system.
+- Subtle module shadows.
+- Monochrome icon behavior.
+- Compact button/icon button rhythm.
+- Modal/sheet rhythm.
+- Spacing and typography rhythm.
+- Dense operational layout.
+
+DebtOS remains debt-focused, but its application shell should follow the WorkOS architecture direction.
+
+Shared ecosystem UI should feel:
+- Industrial operating system.
+- Dense operational workflow UI.
+- Square and structured.
+- Strong border-driven hierarchy.
+- System-like rather than decorative.
+
+Avoid across the ecosystem:
+- Glassmorphism.
+- Soft rounded startup dashboard style.
+- Glossy gradients.
+- Excessive whitespace.
+- Decorative SaaS card layouts.
+
 ## 1. Core Identity
 
 DebtOS là một **Personal Debt Operating System**: giao diện tài chính cá nhân dạng hệ điều hành vận hành nợ, không phải app fintech tiêu dùng.
@@ -278,10 +310,10 @@ Trạng thái UI sau stabilization:
 - Payments đã grouped/collapsible và compact hơn.
 - Settings vẫn placeholder.
 
-Live deployed URL:
+Historical DebtOS deployment URL:
 ```text
 https://statuesque-kataifi-d8b938.netlify.app
 ```
 
 Note:
-Bản deploy hiện tại được deploy trực tiếp từ `dist`. Cần đưa code vào Git repo và connect Netlify để tránh mất source-of-truth deploy flow.
+Đây là ghi chú lịch sử của DebtOS, không phải cấu hình release hiện tại của WorkOS. WorkOS release hiện tại dùng Vercel thông qua GitHub `main`.

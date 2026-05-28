@@ -1,544 +1,324 @@
-# WORKOS — Full Build Prompt v1
+# WORKOS — Current Build Direction
 
-You are building a production-ready web application called:
+You are building and maintaining:
 
+```text
 PERSONAL WORK OPERATING SYSTEM
-
 WorkOS
+```
 
-This application is a personal operational system for an Account Executive.
+WorkOS is a personal operational management web app for projects, tasks, workflow tracking, and operational queue management.
+
+WorkOS is now the primary UI architecture reference for the personal operating system ecosystem. DebtOS has been aligned to WorkOS UI architecture.
+
+## Product Identity
 
 The app should feel like:
-- A tactical execution console
-- A mission control interface
-- A lightweight operational cockpit
 
-The app should NOT feel like:
-- A startup SaaS dashboard
-- A productivity collaboration app
-- A Notion/Trello clone
-- An enterprise PM system
+- Industrial operating system
+- Dense operational workflow UI
+- Tactical execution console
+- Personal operational control system
+- Retro terminal-influenced workflow machine
 
-Reference UI language:
-DebtOS UI Design Language.md
+The app should not feel like:
 
-Reference architecture:
-WORKOS_MODULES.md
+- Startup SaaS dashboard
+- Consumer productivity app
+- Enterprise PM software
+- Notion/Trello clone
+- Soft rounded colorful app
+- Glassmorphism interface
 
-Reference database:
-DATABASE_SCHEMA.md
+## Priorities
 
----
-
-# CORE PHILOSOPHY
-
-Prioritize:
-- Minimalism
-- Operational clarity
-- Fast interaction
-- Low friction
-- Tactical UI feeling
-
-Avoid:
-- Feature bloat
-- Fancy SaaS patterns
-- Over-configuration
-- Unnecessary abstractions
+1. Operational clarity
+2. Fast workflow interaction
+3. Stability
+4. Mobile usability
+5. Real-world daily usage refinement
+6. Small UI polish only when useful
 
 Rule:
-Remove > Add
 
----
+```text
+Stability > feature expansion
+Operational clarity > decoration
+```
 
-# TECH STACK
+## Tech Stack
 
-Build using:
 - React
-- TypeScript
 - Vite
-- TailwindCSS
+- TypeScript
+- Tailwind CSS
 - Supabase
+- Lucide icons
 
-Requirements:
-- Responsive
-- Desktop-first
-- Mobile supported
-- Fast rendering
-- Minimal dependencies
+## Routes
 
----
+- `/` Dashboard
+- `/projects` Projects
+- `/tasks` Tasks
+- `/system` System
 
-# APPLICATION STRUCTURE
+App opens directly to Dashboard.
 
-Main modules:
-- Dashboard
-- Projects
-- Tasks
-- System
+No auth/login gate exists yet.
 
-Main routes:
-- /
-- /projects
-- /tasks
-- /system
+## Shared Ecosystem UI Architecture
 
-Desktop layout:
-- Left navigation
-- Main content area
-- Right-side detail panel
+Shared patterns across WorkOS and aligned ecosystem apps:
 
-Mobile layout:
-- Bottom navigation
-- Full-screen detail view
+- Desktop sidebar
+- Mobile bottom navigation
+- Sticky app header
+- Square module panels
+- Subtle module shadows
+- Monochrome icons
+- Compact button/icon button system
+- Modal/sheet rhythm
+- Dense registry rows
+- Compact status chips
+- Strong borders
+- Consistent spacing and typography rhythm
 
----
+Do not redesign these primitives without a specific reason.
 
-# DESIGN LANGUAGE
-
-Follow DebtOS visual direction.
+## Visual Rules
 
 Use:
-- Monochrome UI
-- Thin borders
-- Strong typography
-- Grid layouts
-- Large whitespace
-- Tactical visual hierarchy
+
+- Square panels
+- Strong borders
+- Subtle operational shadows
+- Monochrome shell
+- Muted tactical status colors
+- Compact layout hierarchy
+- Scan-first typography
 
 Avoid:
-- Gradients
+
 - Glassmorphism
+- Soft UI
+- Big rounded SaaS cards
+- Decorative gradients
+- Glossy UI
+- Excessive whitespace
 - Heavy shadows
-- Bright SaaS colors
-- Over-animation
+- Colorful dashboards
+- Hero/landing-page treatment
 
-Animation:
-- Minimal
-- Fast
-- Utility-focused
-
-Border radius:
-- Small
-- Tactical
-- Sharp feeling
-
----
-
-# TYPOGRAPHY
-
-Style direction:
-- Strong hierarchy
-- Uppercase system labels
-- Large operational numbers
-- Compact tactical labels
-
-Suggested:
-- Inter
-- IBM Plex Mono
-- Geist Mono
-
-Use mono fonts selectively for:
-- Labels
-- Statuses
-- Operational metrics
-
----
-
-# COLOR SYSTEM
-
-Base:
-- Black
-- White
-- Gray
-
-Accent colors:
-- Muted operational colors only
-
-Suggested:
-- Blue → In progress
-- Orange → Chờ thanh toán
-- Purple → Nghiệm thu
-- Gray → Done
-
-Avoid:
-- Saturated UI palettes
-- Rainbow dashboards
-
----
-
-# DATABASE
-
-Use Supabase.
-
-Tables:
-- projects
-- tasks
-
-Follow DATABASE_SCHEMA.md exactly.
-
-Do not invent extra tables unless necessary.
-
-Avoid:
-- Team systems
-- Permission layers
-- Notification systems
-- Activity feeds
-
----
-
-# MODULE 1 — DASHBOARD
+## Dashboard
 
 Purpose:
-Operational command center.
 
-Dashboard must instantly show:
-- Current operational load
-- Active projects
-- Outstanding exposure
-- Today tasks
+```text
+What requires action today?
+```
 
----
+Current structure:
 
-## Mission Panel
+1. Robot speech panel
+2. Project Status counts
+3. Overdue + Today action queue
+4. Running projects
+5. Monday Report copy button
 
-Left side:
-- Pixel/terminal robot
-- Operational system message
+Dashboard should not become:
 
-Messages:
-- WORKLOAD OVERFLOW DETECTED.
-- EXECUTION PIPELINE ACTIVE.
-- OPERATIONAL FLOW STABLE.
-- FREE TODAY.
-- OUTSTANDING COLLECTION REQUIRED.
+- Analytics overview
+- Reporting dashboard
+- Chart surface
+- Duplicate metrics page
 
-Right side:
-- Weighted project progress
-- Operational state label
+Rules:
 
-States:
-- STABLE
-- ACTIVE
-- WARNING
-- OVERLOAD
+- Keep the approved DebtOS PixelRobot.
+- Do not resize/redesign the robot.
+- No weighted project progress.
+- No progress bar.
+- Project Status uses simple counts only.
+- Action Queue shows overdue and today tasks only.
+- Running Projects shows active projects only.
 
----
-
-## Operational Cards
-
-Three cards only:
-- Active Pipeline
-- Outstanding Exposure
-- Today Load
-
-No analytics dashboard behavior.
-
----
-
-## Today Queue
-
-Priority order:
-1. Overdue tasks
-2. Today tasks
-3. Nghiệm thu projects
-4. Chờ thanh toán projects
-
-Max:
-- 3–5 items
-
----
-
-## Monday Report
-
-Button:
-COPY MONDAY REPORT
-
-Behavior:
-- Copies formatted text
-- Lightweight utility only
-
-Do not build:
-- Reporting systems
-- Charts
-- Analytics
-
----
-
-# MODULE 2 — PROJECTS
+## Projects
 
 Purpose:
-Operational execution tracking.
 
-The module must remain:
-- Minimal
-- Fast
-- Lightweight
-
-Avoid:
-- Enterprise PM complexity
-- Collaboration systems
-- Heavy workflows
-
----
-
-## Workflow Statuses
+Operational project registry and execution tracking.
 
 Statuses:
-- Lead/Brief
+
 - Planning
-- In progress
-- Nghiệm thu
-- Chờ thanh toán
+- In Progress
+- Review
+- Payment
 - Done
 
-Done:
-- Lower visual priority
-- Archived feeling
+Required capabilities:
 
----
+- Add project
+- Edit project
+- Delete project
+- Inline status update
+- Update revenue
+- Update paid
+- Outstanding auto-calculates
 
-## Projects Page Structure
+Current metrics:
 
-Top:
 - Active Pipeline
 - Pipeline Value
-- Outstanding Exposure
-
-Middle:
-- Status chips
-
-Bottom:
-- Project queue
-
----
-
-## Project Queue
-
-Each row should display:
-- Project Name
-- Client
-- Small note
-- Revenue
-- Status
-- Outstanding amount
-
----
-
-## Project Detail Panel
-
-Minimal fields only:
-- Project Name
-- Client
-- Status
-- Revenue
-- Paid
 - Outstanding
-- Note
+- Paid Received
 
-Do NOT add:
-- Next Action
-- Finance Summary
-- Quick Actions
-- Comments
-- Team systems
+Finance rules:
 
----
-
-# FINANCE LOGIC
-
-Revenue:
-- excl.VAT by default
-
-Paid:
-- Total paid amount only
-
-Formula:
-Outstanding = Revenue - Paid
-
-Dashboard should calculate:
-- Outstanding exposure
-- Active pipeline value
-- Pending collection
-
----
-
-# MODULE 3 — TASKS
-
-Purpose:
-Micro execution queue.
-
-Tasks should feel:
-- Fast
-- Disposable
-- Operational
+- Outstanding project amount = `max(revenue - paid, 0)`.
+- Outstanding Exposure only counts `Payment` projects.
+- Paid Received is sum of paid amounts.
 
 Avoid:
-- Heavy task systems
-- Calendar apps
-- Kanban systems
-- Productivity SaaS behavior
 
----
+- Kanban
+- Comments
+- Assignees
+- Attachments
+- Team features
+- Analytics
+- Enterprise PM behavior
 
-## Task Input
-
-Use command-style input:
-
-DD/MM — Task content
-
-Examples:
-- 29/5 — Follow payment Coca
-- 05/10 — Check client payment
-
-Behavior:
-- Press Enter to add
-- Auto parse dates
-- No date = current day
-
----
-
-## Task Structure
-
-Fields:
-- Due Date
-- Title
-- Status
-- Delete action
-
-Statuses:
-- To-do
-- Done
-
----
-
-## Task Grouping
-
-Group by:
-- OVERDUE
-- TODAY
-- Monthly sections
-- DONE
-
-Examples:
-- MAY 2026
-- JUN 2026
-- OCT 2026
-
-Done tasks:
-- Lower opacity
-- Lower visual priority
-
----
-
-## FREE TODAY State
-
-If:
-- No overdue tasks
-- No today tasks
-
-Display:
-FREE TODAY.
-
-Subtext:
-No active operational queue.
-
-Use:
-- Large whitespace
-- Calm layout
-- Minimal operational UI
-
----
-
-# MODULE 4 — SYSTEM
+## Tasks
 
 Purpose:
+
+Micro execution queue for fast operational work.
+
+Current structure:
+
+- Quick input
+- Compact counters
+- One filtered registry list
+- Tabs:
+  - Overdue
+  - Today
+  - Upcoming
+  - Done
+
+Required capabilities:
+
+- Add task
+- Edit task
+- Complete task
+- Undo task
+- Delete task
+
+Quick input:
+
+```text
+25/05 - Follow payment Vinamilk
+```
+
+Rules:
+
+- No date assigns today.
+- Done tab must support Undo.
+- Keep checklist rows compact.
+- Avoid Kanban/calendar/recurring logic for now.
+
+## System
+
+Purpose:
+
 Lightweight maintenance layer.
 
-Inspired directly by:
-DebtOS System philosophy.
+Keep only:
 
----
+- Backup Snapshot
+- Version
 
-## Keep Only
+Current version:
 
-### Backup Snapshot
-
-Display:
-
-[ Backup Snapshot ]
-Create local recovery snapshot
-
----
-
-### Logout
-
-Display:
-
-[ Logout ]
-End current session
-
----
-
-### Version Label
-
-Example:
+```text
 v1.0-workos
+```
 
----
+Do not add:
 
-## Remove Completely
+- Logout
+- Auth controls
+- Export UI
+- Analytics
+- Profile settings
+- Integration settings
+- Placeholder filler
 
-Do NOT build:
-- Notification systems
-- Theme settings
-- Sync toggles
-- Integrations
-- Export systems
-- Profile systems
+## Supabase
 
-Supabase sync is infrastructure, not a user setting.
+Supabase persistence is active.
 
----
+`WorkOSProvider` is the single source of truth for UI state.
 
-# UX RULES
+Current mapping:
 
-Required:
-- Fast interactions
-- Minimal clicks
-- Clear hierarchy
-- Strong operational feeling
+- Projects read/write `projects`.
+- Tasks read/write `tasks`.
+- UI task `Done` maps to database `completed=true`.
+- UI task `To-do` maps to database `completed=false`.
 
-Avoid:
-- Deep nested menus
-- Over-complicated modals
-- Empty widgets
-- Placeholder features
+Do not add auth yet.
 
----
+Do not change schema mapping without a deliberate migration.
 
-# PERFORMANCE RULES
+## Current Technical State
 
-Prioritize:
-- Fast initial load
-- Minimal rerenders
-- Stable state management
-- Responsive interaction
+- Build passes.
+- Lint passes.
+- Desktop QA passed.
+- Mobile responsive QA passed.
+- No horizontal overflow detected.
+- Local QA completed before commit.
 
-Avoid:
-- Heavy animation
-- Large dependencies
-- Complex architecture
+Recent ecosystem/UI polish:
 
----
+- Removed nav abbreviations.
+- Added subtle module shadow system matching DebtOS alignment.
+- Preserved square/industrial panel language.
+- Aligned visual hierarchy.
 
-# FINAL PRODUCT GOAL
+## Known Risk Areas
 
-The final product should feel like:
-- A private operational cockpit
-- A tactical workflow console
-- A personalized execution system
+- Dirty files should be reviewed before deployment and staged by phase.
+- Supabase schema differs from earlier docs: tasks use `completed`, not `status`.
+- No auth or per-user partitioning exists yet.
+- Heavy UI redesign risks breaking the ecosystem reference pattern.
+- Deployment requires Vercel env vars.
 
-NOT:
-- A generic productivity dashboard
-- A startup SaaS template
-- A modern colorful PM tool
+## Safe Workflow
+
+Before commit/deployment:
+
+1. Work in a small phase.
+2. Avoid broad refactors.
+3. Run `npm run build`.
+4. Run `npm run lint`.
+5. Start local dev server.
+6. QA desktop.
+7. QA mobile.
+8. Confirm no horizontal overflow.
+9. Verify Supabase flows if persistence is touched.
+10. Commit only the intended files.
+
+## Deployment
+
+Vercel:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Required env vars:
+  - `VITE_SUPABASE_URL`
+  - `VITE_SUPABASE_ANON_KEY`
+- GitHub `main` is connected to Vercel for automatic production deployment.
+
+No login route or logout control should be present in the deployed v1 app.
