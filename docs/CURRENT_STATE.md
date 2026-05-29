@@ -33,6 +33,13 @@ Shared ecosystem patterns:
 - Mascot hero treatment with a single black top line
 - Operational OS design language across project and finance modules
 
+DebtOS Dashboard alignment:
+
+- DebtOS now uses the WorkOS-style pixel robot in its Dashboard hero.
+- The Dashboard hero keeps the single black top-line treatment.
+- Paid/remaining values are not duplicated inside the hero; they remain in the lower summary cards.
+- DebtOS Dashboard summary cards use a balanced responsive three-card layout.
+
 ## Current Visual Language
 
 - Industrial operating system

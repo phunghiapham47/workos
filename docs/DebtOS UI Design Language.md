@@ -129,14 +129,13 @@ Dashboard nên giữ thứ tự scan:
 Đây là một box duy nhất, không tách thành nhiều status box.
 
 Thành phần:
-- Robot xanh biển bên trái.
-- Speech bubble bên cạnh robot.
+- WorkOS-style pixel robot bên trái.
+- Speech bubble bên cạnh robot, cùng nhịp layout với WorkOS Dashboard hero.
 - Message ngắn theo trạng thái tháng.
 - Progress bar trả nợ.
-- Paid this month.
-- Remaining this month.
-- Repayment horizon.
 - Status chip: CLEAR / OPEN / WARNING.
+- Không hiển thị Paid this month hoặc Remaining this month trong hero để tránh lặp với summary cards bên dưới.
+- Black top-line treatment chỉ dùng cho Dashboard hero.
 
 Không dùng lại các label trong box:
 - REPAYMENT CONTROL PANEL
@@ -302,10 +301,10 @@ Không nên dùng:
 
 Trạng thái UI sau stabilization:
 - Header: PERSONAL DEBT OPERATING SYSTEM / DebtOS.
-- Dashboard có một Motivation Box với robot industrial gọn hơn.
-- Robot đổi cảm xúc theo CLEAR / OPEN / WARNING.
+- Dashboard có một Motivation Box với WorkOS-style pixel robot.
 - Dashboard hero dùng single black top-line treatment, aligned với WorkOS mascot hero.
-- Dashboard giữ 3 stat cards chính bên dưới.
+- Dashboard hero chỉ giữ status/progress, không lặp Paid This Month và Remaining.
+- Dashboard giữ 3 stat cards chính bên dưới, cân layout responsive cho mobile/laptop.
 - Debts có summary box pattern cho Credit Card / Installment / Short Loan / Other.
 - Debts có filter tab pattern cho ALL / CREDIT CARD / INSTALLMENT / SHORT LOAN / OTHER / DONE.
 - Projection hiển thị monthly due đúng.
