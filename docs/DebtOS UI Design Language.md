@@ -302,18 +302,21 @@ Không nên dùng:
 
 Trạng thái UI sau stabilization:
 - Header: PERSONAL DEBT OPERATING SYSTEM / DebtOS.
-- Dashboard có một Motivation Box với robot xanh biển.
+- Dashboard có một Motivation Box với robot industrial gọn hơn.
 - Robot đổi cảm xúc theo CLEAR / OPEN / WARNING.
+- Dashboard hero dùng single black top-line treatment, aligned với WorkOS mascot hero.
 - Dashboard giữ 3 stat cards chính bên dưới.
+- Debts có summary box pattern cho Credit Card / Installment / Short Loan / Other.
+- Debts có filter tab pattern cho ALL / CREDIT CARD / INSTALLMENT / SHORT LOAN / OTHER / DONE.
 - Projection hiển thị monthly due đúng.
 - Debts hiển thị actual replayed balance, monthly due, fixed term, remaining terms đúng.
 - Payments đã grouped/collapsible và compact hơn.
 - Settings vẫn placeholder.
 
-Historical DebtOS deployment URL:
+Current DebtOS deployment URL:
 ```text
-https://statuesque-kataifi-d8b938.netlify.app
+https://debtos-eosin.vercel.app
 ```
 
 Note:
-Đây là ghi chú lịch sử của DebtOS, không phải cấu hình release hiện tại của WorkOS. WorkOS release hiện tại dùng Vercel thông qua GitHub `main`.
+DebtOS đã migrate production từ Netlify sang Vercel. WorkOS không có feature change trong pass này; chỉ ecosystem notes được cập nhật để ghi nhận shared UI patterns.

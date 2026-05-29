@@ -28,6 +28,10 @@ Shared ecosystem patterns:
 - Spacing system
 - Typography rhythm
 - Operational layout density
+- Summary box pattern
+- Filter tab pattern
+- Mascot hero treatment with a single black top line
+- Operational OS design language across project and finance modules
 
 ## Current Visual Language
 
