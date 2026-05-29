@@ -6,10 +6,10 @@ import {
   getProjectStatusTone,
   getTaskTone,
   projectStatuses,
-  TODAY,
   type Project,
 } from '../data/workosMock'
 import { useWorkOSStore, type TaskSnapshot } from '../state/workosStore'
+import { useLocalDateKey } from '../utils/useLocalDateKey'
 
 type ActionTask = {
   id: string
@@ -20,14 +20,15 @@ type ActionTask = {
 
 export default function DashboardPage() {
   const { completeTask, projects, restoreTask, tasks } = useWorkOSStore()
+  const todayKey = useLocalDateKey()
   const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle')
   const [undoSnapshot, setUndoSnapshot] = useState<TaskSnapshot | null>(null)
 
   const dashboard = useMemo(() => {
     const activeProjects = projects.filter((project) => project.status !== 'Done')
     const openTasks = tasks.filter((task) => task.status !== 'Done')
-    const overdueTasks = openTasks.filter((task) => task.dueDate < TODAY)
-    const todayTasks = openTasks.filter((task) => task.dueDate === TODAY)
+    const overdueTasks = openTasks.filter((task) => task.dueDate < todayKey)
+    const todayTasks = openTasks.filter((task) => task.dueDate === todayKey)
     const paymentOutstanding = projects
       .filter((project) => project.status === 'Payment')
       .reduce((total, project) => total + getOutstanding(project), 0)
@@ -68,7 +69,7 @@ export default function DashboardPage() {
       statusBreakdown,
       todayTasks,
     }
-  }, [projects, tasks])
+  }, [projects, tasks, todayKey])
 
   const handleCompleteTask = (taskId: string) => {
     const snapshot = completeTask(taskId)

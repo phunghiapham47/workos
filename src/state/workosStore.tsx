@@ -1,7 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { TODAY, type Project, type ProjectStatus, type Task } from '../data/workosMock'
+import { type Project, type ProjectStatus, type Task } from '../data/workosMock'
 import { supabase } from '../lib/supabase'
+import { getLocalDateKey } from '../utils/localDate'
 
 type ProjectDraft = Omit<Project, 'id'>
 type TaskDraft = Pick<Task, 'dueDate' | 'title'>
@@ -105,7 +106,7 @@ function fromTaskRow(row: TaskRow): Task {
   return {
     id: row.id,
     title: row.title,
-    dueDate: row.due_date ?? TODAY,
+    dueDate: row.due_date ?? getLocalDateKey(),
     status: row.completed ? 'Done' : 'To-do',
   }
 }

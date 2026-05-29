@@ -1,3 +1,5 @@
+import { getLocalDateKey } from '../utils/localDate'
+
 export type ProjectStatus =
   | 'Planning'
   | 'In Progress'
@@ -21,8 +23,6 @@ export type Task = {
   dueDate: string
   status: 'To-do' | 'Done'
 }
-
-export const TODAY = '2026-05-28'
 
 export const projectStatuses = ['Planning', 'In Progress', 'Review', 'Payment', 'Done'] as const
 
@@ -69,38 +69,40 @@ export const mockProjects: Project[] = [
   },
 ]
 
-export const mockTasks: Task[] = [
-  {
-    id: 'task-overdue-payment',
-    title: 'Follow payment Vinamilk',
-    dueDate: '2026-05-25',
-    status: 'To-do',
-  },
-  {
-    id: 'task-today-proposal',
-    title: 'Send revised proposal Nutifood',
-    dueDate: TODAY,
-    status: 'To-do',
-  },
-  {
-    id: 'task-today-assets',
-    title: 'Check Coca activation assets',
-    dueDate: TODAY,
-    status: 'To-do',
-  },
-  {
-    id: 'task-done',
-    title: 'Confirm venue photos',
-    dueDate: '2026-05-27',
-    status: 'Done',
-  },
-  {
-    id: 'task-upcoming-review',
-    title: 'Prepare Masan review pack',
-    dueDate: '2026-05-30',
-    status: 'To-do',
-  },
-]
+export function getMockTasks(todayKey = getLocalDateKey()): Task[] {
+  return [
+    {
+      id: 'task-overdue-payment',
+      title: 'Follow payment Vinamilk',
+      dueDate: '2026-05-25',
+      status: 'To-do',
+    },
+    {
+      id: 'task-today-proposal',
+      title: 'Send revised proposal Nutifood',
+      dueDate: todayKey,
+      status: 'To-do',
+    },
+    {
+      id: 'task-today-assets',
+      title: 'Check Coca activation assets',
+      dueDate: todayKey,
+      status: 'To-do',
+    },
+    {
+      id: 'task-done',
+      title: 'Confirm venue photos',
+      dueDate: '2026-05-27',
+      status: 'Done',
+    },
+    {
+      id: 'task-upcoming-review',
+      title: 'Prepare Masan review pack',
+      dueDate: '2026-05-30',
+      status: 'To-do',
+    },
+  ]
+}
 
 export function getOutstanding(project: Project) {
   return Math.max(project.revenue - project.paid, 0)

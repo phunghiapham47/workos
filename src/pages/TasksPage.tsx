@@ -1,7 +1,8 @@
 import { Check, Pencil, Plus, Trash2, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { formatDateLabel, getTaskTone, TODAY, type Task } from '../data/workosMock'
+import { formatDateLabel, getTaskTone, type Task } from '../data/workosMock'
 import { useWorkOSStore, type TaskDraft, type TaskSnapshot } from '../state/workosStore'
+import { useLocalDateKey } from '../utils/useLocalDateKey'
 
 type TaskTab = 'OVERDUE' | 'TODAY' | 'UPCOMING' | 'DONE'
 
@@ -18,28 +19,29 @@ export default function TasksPage() {
     updateTask,
   } =
     useWorkOSStore()
+  const todayKey = useLocalDateKey()
   const [activeTab, setActiveTab] = useState<TaskTab>('TODAY')
   const [quickInput, setQuickInput] = useState('')
   const [editingTask, setEditingTask] = useState<Task | null>(null)
   const [undoSnapshot, setUndoSnapshot] = useState<TaskSnapshot | null>(null)
 
-  const groups = useMemo(() => getTaskGroups(tasks), [tasks])
+  const groups = useMemo(() => getTaskGroups(tasks, todayKey), [tasks, todayKey])
   const visibleTasks = groups[activeTab]
 
   const addTask = () => {
-    const parsed = parseTaskInput(quickInput)
+    const parsed = parseTaskInput(quickInput, todayKey)
     if (!parsed.title) return
 
     const task = addTaskToStore(parsed)
     setQuickInput('')
-    setActiveTab(getTaskTab(task))
+    setActiveTab(getTaskTab(task, todayKey))
   }
 
   const saveTask = (draft: TaskDraft) => {
     if (!editingTask) return
     updateTask(editingTask.id, draft)
     setEditingTask(null)
-    setActiveTab(getTaskTab({ ...editingTask, ...draft }))
+    setActiveTab(getTaskTab({ ...editingTask, ...draft }, todayKey))
   }
 
   const completeTask = (taskId: string) => {
@@ -55,14 +57,14 @@ export default function TasksPage() {
   const undoCompleteTask = () => {
     if (!undoSnapshot) return
     restoreTask(undoSnapshot)
-    setActiveTab(getTaskTab(undoSnapshot.task))
+    setActiveTab(getTaskTab(undoSnapshot.task, todayKey))
     setUndoSnapshot(null)
   }
 
   const restoreDoneTask = (taskId: string) => {
     const task = undoTask(taskId)
     if (!task) return
-    setActiveTab(getTaskTab(task))
+    setActiveTab(getTaskTab(task, todayKey))
   }
 
   return (
@@ -297,35 +299,35 @@ function TaskEditor({
   )
 }
 
-function getTaskGroups(tasks: Task[]): Record<TaskTab, Task[]> {
+function getTaskGroups(tasks: Task[], todayKey: string): Record<TaskTab, Task[]> {
   const openTasks = tasks.filter((task) => task.status !== 'Done')
   return {
-    OVERDUE: openTasks.filter((task) => task.dueDate < TODAY),
-    TODAY: openTasks.filter((task) => task.dueDate === TODAY),
-    UPCOMING: openTasks.filter((task) => task.dueDate > TODAY),
+    OVERDUE: openTasks.filter((task) => task.dueDate < todayKey),
+    TODAY: openTasks.filter((task) => task.dueDate === todayKey),
+    UPCOMING: openTasks.filter((task) => task.dueDate > todayKey),
     DONE: tasks.filter((task) => task.status === 'Done'),
   }
 }
 
-function getTaskTab(task: Task): TaskTab {
+function getTaskTab(task: Task, todayKey: string): TaskTab {
   if (task.status === 'Done') return 'DONE'
-  if (task.dueDate < TODAY) return 'OVERDUE'
-  if (task.dueDate === TODAY) return 'TODAY'
+  if (task.dueDate < todayKey) return 'OVERDUE'
+  if (task.dueDate === todayKey) return 'TODAY'
   return 'UPCOMING'
 }
 
-function parseTaskInput(value: string): TaskDraft {
+function parseTaskInput(value: string, todayKey: string): TaskDraft {
   const trimmed = value.trim()
   const match = trimmed.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\s*[—-]\s*(.+)$/)
 
   if (!match) {
-    return { dueDate: TODAY, title: trimmed }
+    return { dueDate: todayKey, title: trimmed }
   }
 
   const [, rawDay, rawMonth, rawYear, rawTitle] = match
   const year =
     rawYear === undefined
-      ? TODAY.slice(0, 4)
+      ? todayKey.slice(0, 4)
       : rawYear.length === 2
         ? `20${rawYear}`
         : rawYear
