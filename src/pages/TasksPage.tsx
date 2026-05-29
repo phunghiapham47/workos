@@ -302,11 +302,21 @@ function TaskEditor({
 function getTaskGroups(tasks: Task[], todayKey: string): Record<TaskTab, Task[]> {
   const openTasks = tasks.filter((task) => task.status !== 'Done')
   return {
-    OVERDUE: openTasks.filter((task) => task.dueDate < todayKey),
+    OVERDUE: openTasks
+      .filter((task) => task.dueDate < todayKey)
+      .sort((a, b) => b.dueDate.localeCompare(a.dueDate)),
     TODAY: openTasks.filter((task) => task.dueDate === todayKey),
-    UPCOMING: openTasks.filter((task) => task.dueDate > todayKey),
-    DONE: tasks.filter((task) => task.status === 'Done'),
+    UPCOMING: openTasks
+      .filter((task) => task.dueDate > todayKey)
+      .sort((a, b) => a.dueDate.localeCompare(b.dueDate)),
+    DONE: tasks
+      .filter((task) => task.status === 'Done')
+      .sort((a, b) => getDateDistance(a.dueDate, todayKey) - getDateDistance(b.dueDate, todayKey)),
   }
+}
+
+function getDateDistance(dateKey: string, todayKey: string) {
+  return Math.abs(new Date(`${dateKey}T00:00:00`).getTime() - new Date(`${todayKey}T00:00:00`).getTime())
 }
 
 function getTaskTab(task: Task, todayKey: string): TaskTab {
