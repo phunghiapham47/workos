@@ -127,7 +127,7 @@ export default function DashboardPage() {
               ) : (
                 <Clipboard className="size-3.5" aria-hidden="true" />
               )}
-              {copyState === 'copied' ? 'Copied' : 'Monday Report'}
+              {copyState === 'copied' ? 'Copied' : 'Copy Monday Update'}
             </button>
           </div>
         </div>
@@ -270,14 +270,28 @@ function ActiveProjectQueue({ projects }: { projects: Project[] }) {
   )
 }
 
-function buildMondayReport({
-  activeProjects,
-}: {
-  activeProjects: Project[]
-}) {
-  return activeProjects
-    .map((project, index) => `${index + 1}. ${project.client}_${project.name} | ${project.status.toUpperCase()} - ${project.note}`)
-    .join('\n')
+const mondayReportSections: Array<{ status: Project['status']; title: string }> = [
+  { status: 'Planning', title: 'Dự kiến' },
+  { status: 'In Progress', title: 'Đang triển khai' },
+  { status: 'Review', title: 'Đang nghiệm thu' },
+  { status: 'Payment', title: 'Chờ thanh toán' },
+]
+
+function buildMondayReport({ activeProjects }: { activeProjects: Project[] }) {
+  return mondayReportSections
+    .map(({ status, title }) => {
+      const projectLines = activeProjects
+        .filter((project) => project.status === status)
+        .map(formatMondayReportLine)
+
+      return [`[${title}]`, ...projectLines].join('\n')
+    })
+    .join('\n---\n')
+}
+
+function formatMondayReportLine(project: Project) {
+  const projectLabel = [project.client, project.name].filter(Boolean).join('_')
+  return `${projectLabel} | ${project.note}`.trim()
 }
 
 async function copyText(value: string) {
