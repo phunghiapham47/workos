@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import {
   formatDateLabel,
   getOutstanding,
+  getProjectStatusRank,
   getProjectStatusTone,
   getTaskTone,
   projectStatuses,
@@ -25,7 +26,9 @@ export default function DashboardPage() {
   const [undoSnapshot, setUndoSnapshot] = useState<TaskSnapshot | null>(null)
 
   const dashboard = useMemo(() => {
-    const activeProjects = projects.filter((project) => project.status !== 'Done')
+    const activeProjects = projects
+      .filter((project) => project.status !== 'Done')
+      .sort((a, b) => getProjectStatusRank(a.status) - getProjectStatusRank(b.status))
     const openTasks = tasks.filter((task) => task.status !== 'Done')
     const overdueTasks = openTasks.filter((task) => task.dueDate < todayKey)
     const todayTasks = openTasks.filter((task) => task.dueDate === todayKey)
@@ -137,16 +140,16 @@ export default function DashboardPage() {
             <p className="eyebrow">Project Status</p>
             <span className="status-chip">{projects.length} TOTAL</span>
           </div>
-          <div className="mt-3 grid gap-1.5 text-xs font-bold sm:grid-cols-2 xl:grid-cols-1">
+          <div className="mt-3 grid grid-cols-2 gap-1.5 text-[11px] font-bold">
             {dashboard.statusBreakdown.map((item) => (
               <div
                 key={item.status}
                 className={[
-                  'flex min-h-8 items-center justify-between gap-2 border px-2',
+                  'flex min-h-7 items-center justify-between gap-2 border px-2 py-1',
                   getProjectStatusTone(item.status),
                 ].join(' ')}
               >
-                <span>{item.status}</span>
+                <span className="truncate">{item.status}</span>
                 <span className="font-mono">{item.count}</span>
               </div>
             ))}
@@ -212,7 +215,7 @@ function ActionTaskQueue({ items, onComplete }: { items: ActionTask[]; onComplet
               <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
                 {item.date}
               </p>
-              <p className="min-w-0 text-sm font-bold text-black">{item.title}</p>
+              <p className="min-w-0 text-sm font-bold leading-5 text-black">{item.title}</p>
               <span
                 className={[
                   'w-fit border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-normal',
@@ -249,7 +252,7 @@ function ActiveProjectQueue({ projects }: { projects: Project[] }) {
         {projects.map((project) => (
           <div key={project.id} className="grid gap-2 px-3 py-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
             <div className="min-w-0">
-              <p className="truncate text-sm font-black text-black">{project.name}</p>
+              <p className="truncate text-sm font-bold text-black">{project.name}</p>
               <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-normal text-slate-500">
                 {project.client}
               </p>

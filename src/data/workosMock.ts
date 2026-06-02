@@ -26,9 +26,21 @@ export type Task = {
 
 export const projectStatuses = ['Planning', 'In Progress', 'Review', 'Payment', 'Done'] as const
 
+export const projectStatusOrder: Record<ProjectStatus, number> = {
+  Planning: 1,
+  'In Progress': 2,
+  Review: 3,
+  Payment: 4,
+  Done: 5,
+}
+
 export const statusFilters = ['ALL', ...projectStatuses] as const
 
 export type StatusFilter = (typeof statusFilters)[number]
+
+export function getProjectStatusRank(status: ProjectStatus) {
+  return projectStatusOrder[status]
+}
 
 export const mockProjects: Project[] = [
   {

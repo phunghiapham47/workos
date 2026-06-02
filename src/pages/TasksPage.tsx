@@ -7,6 +7,12 @@ import { useLocalDateKey } from '../utils/useLocalDateKey'
 type TaskTab = 'OVERDUE' | 'TODAY' | 'UPCOMING' | 'DONE'
 
 const taskTabs: TaskTab[] = ['OVERDUE', 'TODAY', 'UPCOMING', 'DONE']
+const taskTabLabels: Record<TaskTab, string> = {
+  OVERDUE: 'Overdue',
+  TODAY: 'Today',
+  UPCOMING: 'Upcoming',
+  DONE: 'Done',
+}
 
 export default function TasksPage() {
   const {
@@ -27,6 +33,7 @@ export default function TasksPage() {
 
   const groups = useMemo(() => getTaskGroups(tasks, todayKey), [tasks, todayKey])
   const visibleTasks = groups[activeTab]
+  const visibleTaskMonthGroups = useMemo(() => getTaskMonthGroups(visibleTasks), [visibleTasks])
 
   const addTask = () => {
     const parsed = parseTaskInput(quickInput, todayKey)
@@ -99,14 +106,14 @@ export default function TasksPage() {
             type="button"
             onClick={() => setActiveTab(tab)}
             className={[
-              'module-panel min-h-16 p-2 text-left transition sm:p-3',
+              'module-panel min-h-14 p-2 text-left transition sm:min-h-16 sm:p-3',
               activeTab === tab ? 'border-black bg-slate-50 shadow-[inset_0_-3px_0_#020617]' : '',
             ].join(' ')}
           >
             <span className={['inline-flex border px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-normal sm:text-[10px]', getTaskTone(tab)].join(' ')}>
-              {tab}
+              {taskTabLabels[tab]}
             </span>
-            <span className="mt-2 block text-2xl font-black tracking-normal text-black">
+            <span className="mt-1.5 block text-xl font-black tracking-normal text-black sm:mt-2 sm:text-2xl">
               {groups[tab].length}
             </span>
           </button>
@@ -117,26 +124,37 @@ export default function TasksPage() {
         <div className="flex items-center justify-between gap-4">
           <p className="eyebrow">Task Registry</p>
           <span className={['border px-2 py-1 font-mono text-[10px] font-black uppercase tracking-normal', getTaskTone(activeTab)].join(' ')}>
-            {activeTab}
+            {taskTabLabels[activeTab]}
           </span>
         </div>
 
-        <div className="mt-3 divide-y divide-slate-200 border border-slate-300">
+        <div className="mt-3 border border-slate-300">
           {visibleTasks.length === 0 ? (
             <div className="px-3 py-3 font-mono text-[10px] font-black uppercase tracking-normal text-slate-400">
               Clear
             </div>
           ) : (
-            visibleTasks.map((task) => (
-              <TaskRow
-                key={task.id}
-                task={task}
-                tab={activeTab}
-                onComplete={completeTask}
-                onDelete={deleteTask}
-                onEdit={setEditingTask}
-                onUndo={restoreDoneTask}
-              />
+            visibleTaskMonthGroups.map((group) => (
+              <div key={group.monthKey} className="border-b border-slate-300 last:border-b-0">
+                <div className="flex min-h-9 items-center justify-between gap-3 border-b border-slate-300 bg-slate-50 px-3 py-2">
+                  <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-600">
+                    {group.label}
+                  </p>
+                  <span className="status-chip">{group.tasks.length} TASKS</span>
+                </div>
+                <div className="divide-y divide-slate-200">
+                  {group.tasks.map((task) => (
+                    <TaskRow
+                      key={task.id}
+                      task={task}
+                      onComplete={completeTask}
+                      onDelete={deleteTask}
+                      onEdit={setEditingTask}
+                      onUndo={restoreDoneTask}
+                    />
+                  ))}
+                </div>
+              </div>
             ))
           )}
         </div>
@@ -175,32 +193,30 @@ function TaskRow({
   onDelete,
   onEdit,
   onUndo,
-  tab,
   task,
 }: {
   onComplete: (taskId: string) => void
   onDelete: (taskId: string) => void
   onEdit: (task: Task) => void
   onUndo: (taskId: string) => void
-  tab: TaskTab
   task: Task
 }) {
   const isDone = task.status === 'Done'
 
   return (
-    <div className={['grid gap-2 px-3 py-2 sm:grid-cols-[70px_minmax(0,1fr)_auto] sm:items-center', isDone ? 'opacity-55' : ''].join(' ')}>
-      <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500">
+    <div className={['grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 px-3 py-2.5 sm:grid-cols-[70px_minmax(0,1fr)_auto] sm:items-center', isDone ? 'bg-slate-50' : 'bg-white'].join(' ')}>
+      <p className="hidden font-mono text-[10px] font-black uppercase tracking-normal text-slate-500 sm:block">
         {formatDateLabel(task.dueDate)}
       </p>
       <div className="min-w-0">
-        <p className={['truncate text-sm font-black', isDone ? 'text-slate-500 line-through' : 'text-black'].join(' ')}>
+        <p className="font-mono text-[10px] font-black uppercase tracking-normal text-slate-500 sm:hidden">
+          {formatDateLabel(task.dueDate)}
+        </p>
+        <p className={['mt-1 break-words text-sm font-bold leading-5 sm:mt-0 sm:truncate', isDone ? 'text-slate-500 line-through' : 'text-black'].join(' ')}>
           {task.title}
         </p>
-        <span className={['mt-1 inline-flex border px-2 py-0.5 font-mono text-[10px] font-black uppercase tracking-normal', getTaskTone(tab)].join(' ')}>
-          {tab}
-        </span>
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex shrink-0 items-center gap-1">
         {!isDone ? (
           <button
             type="button"
@@ -313,6 +329,34 @@ function getTaskGroups(tasks: Task[], todayKey: string): Record<TaskTab, Task[]>
       .filter((task) => task.status === 'Done')
       .sort((a, b) => getDateDistance(a.dueDate, todayKey) - getDateDistance(b.dueDate, todayKey)),
   }
+}
+
+function getTaskMonthGroups(tasks: Task[]) {
+  return tasks.reduce<Array<{ label: string; monthKey: string; tasks: Task[] }>>((monthGroups, task) => {
+    const monthKey = task.dueDate.slice(0, 7)
+    const currentGroup = monthGroups[monthGroups.length - 1]
+
+    if (currentGroup?.monthKey === monthKey) {
+      currentGroup.tasks.push(task)
+      return monthGroups
+    }
+
+    monthGroups.push({
+      label: formatTaskMonthLabel(monthKey),
+      monthKey,
+      tasks: [task],
+    })
+
+    return monthGroups
+  }, [])
+}
+
+function formatTaskMonthLabel(monthKey: string) {
+  const [year, month] = monthKey.split('-')
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(Number(year), Number(month) - 1))
 }
 
 function getDateDistance(dateKey: string, todayKey: string) {

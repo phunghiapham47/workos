@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import {
   formatMoney,
   getOutstanding,
+  getProjectStatusRank,
   getProjectStatusTone,
   projectStatuses,
   statusFilters,
@@ -12,14 +13,6 @@ import {
   type StatusFilter,
 } from '../data/workosMock'
 import { useWorkOSStore, type ProjectDraft } from '../state/workosStore'
-
-const statusOrder: Record<ProjectStatus, number> = {
-  Planning: 1,
-  'In Progress': 2,
-  Review: 3,
-  Payment: 4,
-  Done: 5,
-}
 
 const emptyDraft: ProjectDraft = {
   name: '',
@@ -43,7 +36,7 @@ export default function ProjectsPage() {
       [...projects].sort((a, b) => {
         if (a.status === 'Done' && b.status !== 'Done') return 1
         if (a.status !== 'Done' && b.status === 'Done') return -1
-        return statusOrder[a.status] - statusOrder[b.status]
+        return getProjectStatusRank(a.status) - getProjectStatusRank(b.status)
       }),
     [projects],
   )
@@ -297,7 +290,7 @@ function ProjectQueue({
               ].join(' ')}
             >
               <button type="button" onClick={() => onSelectProject(project)} className="min-w-0 text-left">
-                <p className="truncate text-sm font-black">{project.name}</p>
+                <p className="truncate text-sm font-bold">{project.name}</p>
                 <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-normal text-slate-500">
                   {project.client}
                 </p>
@@ -324,12 +317,12 @@ function ProjectQueue({
               <div className="grid grid-cols-2 gap-2 sm:contents">
                 <div className="border border-slate-200 bg-white px-2 py-1.5 sm:border-0 sm:bg-transparent sm:p-0">
                   <p className="eyebrow sm:hidden">Revenue</p>
-                  <p className="mt-1 text-xs font-black sm:mt-0 sm:text-sm">{formatMoney(project.revenue)}</p>
+                  <p className="mt-1 text-xs font-bold sm:mt-0 sm:text-sm">{formatMoney(project.revenue)}</p>
                 </div>
 
                 <div className="border border-slate-200 bg-white px-2 py-1.5 sm:border-0 sm:bg-transparent sm:p-0">
                   <p className="eyebrow sm:hidden">Outstanding</p>
-                  <p className="mt-1 text-xs font-black sm:mt-0 sm:text-sm">{formatMoney(getOutstanding(project))}</p>
+                  <p className="mt-1 text-xs font-bold sm:mt-0 sm:text-sm">{formatMoney(getOutstanding(project))}</p>
                 </div>
               </div>
 
