@@ -61,7 +61,16 @@ Tasks:
   - `completed=false` -> `To-do`
   - `completed=true` -> `Done`
 
-No auth is implemented yet.
+Login is implemented for edit access.
+
+Security model:
+
+- RLS is enabled on `projects` and `tasks`.
+- Anonymous users can view Projects and Tasks.
+- Authenticated users can add, edit, complete, undo, and delete.
+- Auth sessions persist in browser local storage under `workos-auth-session`.
+- There is no per-user row ownership yet, so every authenticated user can edit all rows.
+- Security advisors currently report no Supabase security lints.
 
 ## UI Architecture
 
@@ -92,7 +101,8 @@ Visual rules:
 
 - Dirty files should be reviewed before deployment and staged by phase.
 - Supabase schema and provider mapping must stay aligned.
-- No auth or user partitioning exists.
+- No user partitioning exists.
+- Current authenticated write-all policies should not be reused for multi-user deployments.
 - Large UI refactors can break ecosystem consistency.
 - Mobile density should be protected when adding features.
 

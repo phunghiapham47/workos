@@ -76,7 +76,10 @@ Avoid:
 - No horizontal overflow detected.
 - Supabase persistence is active.
 - App opens directly to Dashboard.
-- No auth is implemented.
+- Login is implemented for edit access.
+- Login persists per browser until sign-out or session expiry.
+- RLS is enabled on `projects` and `tasks`.
+- Anonymous users can view data; authenticated users can add, edit, complete, undo, and delete.
 
 ## Current Modules
 
@@ -113,7 +116,8 @@ System:
 - Dirty files should be reviewed before deployment and staged by phase.
 - Supabase schema must preserve current provider mapping.
 - Tasks use `completed: boolean`, not a `status` text column.
-- No auth or per-user partitioning exists.
+- No per-user partitioning exists.
+- Current authenticated write-all policies are not a multi-user security model.
 - Heavy redesigns risk breaking ecosystem alignment.
 
 ## Constraints Going Forward

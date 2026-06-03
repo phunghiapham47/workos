@@ -64,7 +64,7 @@ Operational clarity > decoration
 
 App opens directly to Dashboard.
 
-No auth/login gate exists yet.
+Login gates edit access; public users can view data.
 
 ## Shared Ecosystem UI Architecture
 
@@ -267,7 +267,7 @@ Current mapping:
 - UI task `Done` maps to database `completed=true`.
 - UI task `To-do` maps to database `completed=false`.
 
-Do not add auth yet.
+Do not add per-user ownership yet unless intentionally migrating RLS.
 
 Do not change schema mapping without a deliberate migration.
 
@@ -291,7 +291,7 @@ Recent ecosystem/UI polish:
 
 - Dirty files should be reviewed before deployment and staged by phase.
 - Supabase schema differs from earlier docs: tasks use `completed`, not `status`.
-- No auth or per-user partitioning exists yet.
+- No per-user partitioning exists yet.
 - Heavy UI redesign risks breaking the ecosystem reference pattern.
 - Deployment requires Vercel env vars.
 
@@ -321,4 +321,4 @@ Vercel:
   - `VITE_SUPABASE_ANON_KEY`
 - GitHub `main` is connected to Vercel for automatic production deployment.
 
-No login route or logout control should be present in the deployed v1 app.
+No dedicated login route is required; header login/logout controls manage edit access.

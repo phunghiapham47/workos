@@ -88,7 +88,16 @@ Important mapping:
 - Outstanding is calculated in the app from project revenue and paid values.
 - Current project outstanding exposure only treats `Payment` projects as receivable.
 
-Auth is intentionally not implemented yet.
+Auth is implemented for edit access.
+
+Security decision:
+
+- RLS is enabled on `projects` and `tasks`.
+- Anonymous users can view Projects and Tasks.
+- Authenticated users can add, edit, complete, undo, and delete.
+- The app still opens directly to Dashboard.
+- There is no per-user row isolation yet; every authenticated user can edit all rows.
+- For sensitive or shared deployments, add owner-based RLS policies.
 
 ## Setup
 
@@ -98,6 +107,14 @@ Create `.env.local`:
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
+
+Create at least one Supabase Auth user for edit access. The app uses email/password sign-in from the header and does not expose self-signup.
+
+Auth session behavior:
+
+- Login is saved per browser through Supabase Auth local storage.
+- Refreshing or reopening the app keeps Edit Mode until the user signs out or the session expires.
+- The session storage key is `workos-auth-session`.
 
 Install and run:
 
@@ -125,7 +142,7 @@ Vercel deployment settings:
 
 The GitHub `main` branch is connected to Vercel. Future pushes to `main` should trigger production deployment automatically.
 
-The app opens directly to Dashboard. There is no login or logout flow.
+The app opens directly to Dashboard. Login/logout controls are available in the app header for edit access.
 
 ## Required QA Before Deployment
 
@@ -153,7 +170,8 @@ Known risk areas:
 
 - Dirty files should be reviewed before deployment and staged by phase.
 - Supabase schema must stay aligned with the current app mapping, especially `tasks.completed`.
-- No auth or row-level user separation exists yet.
+- No row-level user separation exists yet.
+- Current authenticated write-all policies are not a multi-user security model.
 - Browser form automation can be blocked by the in-app browser clipboard layer; use direct Supabase verification scripts when needed.
 
 ## Constraints

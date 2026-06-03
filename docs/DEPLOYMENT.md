@@ -49,9 +49,12 @@ The deployed app opens directly to Dashboard.
 
 There is currently:
 
-- No login route.
-- No auth gate.
-- No logout control.
+- No dedicated login route.
+- Header login controls gate edit access.
+- At least one Supabase Auth email/password user must exist for editing.
+- The app does not expose self-signup; manage editor accounts in Supabase Auth.
+- Login persists per browser through Supabase Auth local storage key `workos-auth-session`.
+- Header logout control is available after sign-in.
 
 ## Deployment QA Flow
 
@@ -82,6 +85,7 @@ If persistence code changed, also verify:
 ## Current Deployment Risks
 
 - Dirty files should be reviewed before deployment and staged by phase.
-- No auth or row-level user separation exists yet.
+- No row-level user separation exists yet.
+- Anonymous users can view data; authenticated users can edit all rows.
 - Supabase schema must preserve `tasks.completed`.
 - Vercel environment variables must be configured before production deploy.

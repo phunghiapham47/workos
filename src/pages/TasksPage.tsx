@@ -1,6 +1,7 @@
 import { Check, Pencil, Plus, Trash2, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { formatDateLabel, getTaskTone, type Task } from '../data/workosMock'
+import { useAuth } from '../state/authStore'
 import { useWorkOSStore, type TaskDraft, type TaskSnapshot } from '../state/workosStore'
 import { useLocalDateKey } from '../utils/useLocalDateKey'
 
@@ -25,6 +26,7 @@ export default function TasksPage() {
     updateTask,
   } =
     useWorkOSStore()
+  const { requireEditAccess } = useAuth()
   const todayKey = useLocalDateKey()
   const [activeTab, setActiveTab] = useState<TaskTab>('TODAY')
   const [quickInput, setQuickInput] = useState('')
@@ -36,6 +38,7 @@ export default function TasksPage() {
   const visibleTaskMonthGroups = useMemo(() => getTaskMonthGroups(visibleTasks), [visibleTasks])
 
   const addTask = () => {
+    if (!requireEditAccess()) return
     const parsed = parseTaskInput(quickInput, todayKey)
     if (!parsed.title) return
 
@@ -45,6 +48,7 @@ export default function TasksPage() {
   }
 
   const saveTask = (draft: TaskDraft) => {
+    if (!requireEditAccess()) return
     if (!editingTask) return
     updateTask(editingTask.id, draft)
     setEditingTask(null)
@@ -52,6 +56,7 @@ export default function TasksPage() {
   }
 
   const completeTask = (taskId: string) => {
+    if (!requireEditAccess()) return
     const snapshot = completeTaskInStore(taskId)
     if (!snapshot) return
     setUndoSnapshot(snapshot)
@@ -62,6 +67,7 @@ export default function TasksPage() {
   }
 
   const undoCompleteTask = () => {
+    if (!requireEditAccess()) return
     if (!undoSnapshot) return
     restoreTask(undoSnapshot)
     setActiveTab(getTaskTab(undoSnapshot.task, todayKey))
@@ -69,6 +75,7 @@ export default function TasksPage() {
   }
 
   const restoreDoneTask = (taskId: string) => {
+    if (!requireEditAccess()) return
     const task = undoTask(taskId)
     if (!task) return
     setActiveTab(getTaskTab(task, todayKey))
@@ -148,8 +155,14 @@ export default function TasksPage() {
                       key={task.id}
                       task={task}
                       onComplete={completeTask}
-                      onDelete={deleteTask}
-                      onEdit={setEditingTask}
+                      onDelete={(taskId) => {
+                        if (!requireEditAccess()) return
+                        deleteTask(taskId)
+                      }}
+                      onEdit={(task) => {
+                        if (!requireEditAccess()) return
+                        setEditingTask(task)
+                      }}
                       onUndo={restoreDoneTask}
                     />
                   ))}

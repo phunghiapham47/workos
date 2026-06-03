@@ -306,7 +306,7 @@ Current version label:
 v1.0-workos
 ```
 
-Removed because there is no login/auth:
+Removed from v1 navigation despite edit-login support:
 
 - Logout
 
@@ -328,14 +328,14 @@ Removed to keep System minimal:
 - Supabase persistence is active.
 - Dashboard, Projects, and Tasks read from `WorkOSProvider`.
 - App opens directly to Dashboard.
-- No auth is implemented.
+- Login is implemented for edit access.
 
 ## Known Risk Areas
 
 - Dirty files should be reviewed before deployment and staged by phase.
 - Supabase schema must stay aligned with current app mapping.
 - `tasks.completed` is the database source for UI task done state.
-- No auth or user-level data partitioning exists yet.
+- No user-level data partitioning exists yet.
 - Large UI refactors risk breaking the stabilized ecosystem pattern.
 
 ## Safe Work Process

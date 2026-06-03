@@ -44,6 +44,56 @@ During actions:
 
 Dashboard, Projects, and Tasks all read from the same provider state.
 
+## Security Decision: Public View, Login Edit
+
+Current decision:
+
+- Keep the app viewable without login.
+- Require Supabase login for edit actions.
+- Use Supabase Auth email/password users for edit access.
+- Keep login saved per browser through Supabase Auth local storage.
+- Enable Row-Level Security on `public.projects` and `public.tasks`.
+- Allow `anon` to perform `select` only.
+- Allow `authenticated` to perform `select`, `insert`, `update`, and `delete`.
+- Revoke unnecessary table privileges from browser-facing roles, including `truncate`, `references`, and `trigger`.
+
+Reasoning:
+
+- The frontend currently uses the Supabase anon client directly from the browser.
+- There is no user account, team, owner, or permission model in WorkOS v1.
+- Public read preserves the current no-friction Dashboard/Projects/Tasks view.
+- Authenticated write prevents unauthenticated visitors from adding, editing, completing, undoing, or deleting rows.
+
+Security tradeoff:
+
+- RLS is enabled and Supabase security advisors report no current security lints.
+- Anonymous users can still read project and task data.
+- Only logged-in Supabase users can write.
+- Any logged-in user can edit all rows because there is no `owner_id` row partition yet.
+- For sensitive or multi-user deployment, add owner-based RLS before sharing access.
+
+Required future hardening:
+
+1. Add `owner_id uuid not null default auth.uid()` to `projects` and `tasks`.
+2. Replace authenticated write-all policies with `auth.uid() = owner_id`.
+3. Backfill existing rows to the intended owner before enforcing `owner_id not null`.
+4. Keep public read only if the data is intentionally shareable.
+
+Current policies:
+
+| Table | RLS | Roles | Operations | Predicate |
+|---|---:|---|---|---|
+| `projects` | enabled | `anon`, `authenticated` | select | `true` |
+| `projects` | enabled | `authenticated` | insert, update, delete | `auth.role() = 'authenticated'` |
+| `tasks` | enabled | `anon`, `authenticated` | select | `true` |
+| `tasks` | enabled | `authenticated` | insert, update, delete | `auth.role() = 'authenticated'` |
+
+Advisor status after change:
+
+- `rls_disabled_in_public`: resolved for `projects` and `tasks`.
+- `rls_policy_always_true`: resolved by requiring `auth.role() = 'authenticated'` for write policies.
+- `function_search_path_mutable`: resolved by setting `public.set_updated_at()` search path to `public`.
+
 ## Table: projects
 
 Purpose:
@@ -182,7 +232,7 @@ Tasks remain independent from projects to preserve operational speed and avoid p
 
 Preserve current behavior unless a migration is intentionally planned:
 
-- Do not add auth tables yet.
+- Do not add auth-owned rows until an `owner_id` migration is intentionally planned.
 - Do not add team/collaboration tables.
 - Do not change `tasks.completed` without migrating provider mapping.
 - Do not rely on `projects.updated_at` until the deployed schema exposes it.

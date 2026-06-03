@@ -12,6 +12,7 @@ import {
   type ProjectStatus,
   type StatusFilter,
 } from '../data/workosMock'
+import { useAuth } from '../state/authStore'
 import { useWorkOSStore, type ProjectDraft } from '../state/workosStore'
 
 const emptyDraft: ProjectDraft = {
@@ -25,6 +26,7 @@ const emptyDraft: ProjectDraft = {
 
 export default function ProjectsPage() {
   const { addProject, deleteProject, projects, updateProject, updateProjectStatus } = useWorkOSStore()
+  const { isEditMode, requireEditAccess } = useAuth()
   const [activeFilter, setActiveFilter] = useState<StatusFilter>('ALL')
   const [selectedProjectId, setSelectedProjectId] = useState(projects[0]?.id ?? '')
   const [editingProject, setEditingProject] = useState<Project | null>(null)
@@ -71,16 +73,19 @@ export default function ProjectsPage() {
     orderedProjects[0]
 
   const openAddProject = () => {
+    if (!requireEditAccess()) return
     setEditingProject(null)
     setIsProjectSheetOpen(true)
   }
 
   const openEditProject = (project: Project) => {
+    if (!requireEditAccess()) return
     setEditingProject(project)
     setIsProjectSheetOpen(true)
   }
 
   const saveProject = (draft: ProjectDraft) => {
+    if (!requireEditAccess()) return
     if (editingProject) {
       updateProject(editingProject.id, draft)
       setSelectedProjectId(editingProject.id)
@@ -93,6 +98,7 @@ export default function ProjectsPage() {
   }
 
   const handleDeleteProject = (projectId: string) => {
+    if (!requireEditAccess()) return
     deleteProject(projectId)
     if (selectedProjectId === projectId) {
       setSelectedProjectId(projects.find((project) => project.id !== projectId)?.id ?? '')
@@ -167,6 +173,8 @@ export default function ProjectsPage() {
                 setIsMobileDetailOpen(true)
               }}
               onUpdateStatus={updateProjectStatus}
+              canEdit={isEditMode}
+              requireEditAccess={requireEditAccess}
             />
           </div>
 
@@ -246,14 +254,18 @@ function StatusFilterBar({
 }
 
 function ProjectQueue({
+  canEdit,
   projects,
+  requireEditAccess,
   selectedProjectId,
   onDeleteProject,
   onEditProject,
   onSelectProject,
   onUpdateStatus,
 }: {
+  canEdit: boolean
   projects: Project[]
+  requireEditAccess: () => boolean
   selectedProjectId?: string
   onDeleteProject: (projectId: string) => void
   onEditProject: (project: Project) => void
@@ -299,12 +311,19 @@ function ProjectQueue({
               <label className="hidden gap-1 sm:grid">
                 <select
                   value={project.status}
-                  onChange={(event) => onUpdateStatus(project.id, event.target.value as ProjectStatus)}
+                  onChange={(event) => {
+                    if (!requireEditAccess()) {
+                      event.currentTarget.value = project.status
+                      return
+                    }
+                    onUpdateStatus(project.id, event.target.value as ProjectStatus)
+                  }}
                   className={[
                     'h-8 w-full max-w-36 border px-2 font-mono text-[10px] font-black uppercase tracking-normal outline-none',
                     getProjectStatusTone(project.status),
                   ].join(' ')}
                   aria-label={`Update status for ${project.name}`}
+                  title={canEdit ? `Update status for ${project.name}` : 'Sign in to edit'}
                 >
                   {projectStatuses.map((status) => (
                     <option key={status} value={status}>
@@ -331,12 +350,19 @@ function ProjectQueue({
                   <span className="sr-only">Status</span>
                   <select
                     value={project.status}
-                    onChange={(event) => onUpdateStatus(project.id, event.target.value as ProjectStatus)}
+                    onChange={(event) => {
+                      if (!requireEditAccess()) {
+                        event.currentTarget.value = project.status
+                        return
+                      }
+                      onUpdateStatus(project.id, event.target.value as ProjectStatus)
+                    }}
                     className={[
                       'h-8 w-36 border px-2 font-mono text-[10px] font-black uppercase tracking-normal outline-none',
                       getProjectStatusTone(project.status),
                     ].join(' ')}
                     aria-label={`Update status for ${project.name}`}
+                    title={canEdit ? `Update status for ${project.name}` : 'Sign in to edit'}
                   >
                     {projectStatuses.map((status) => (
                       <option key={status} value={status}>

@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom'
+import AuthControls from '../auth/AuthControls'
 import { MobileNavigation, Sidebar, WorkOSMark } from './Sidebar'
 
 const routeMeta: Record<string, { title: string }> = {
@@ -37,6 +38,8 @@ export default function AppShell() {
                   {currentRoute.title}
                 </h1>
               </div>
+
+              <AuthControls />
             </div>
           </header>
 

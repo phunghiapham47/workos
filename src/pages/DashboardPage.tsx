@@ -9,6 +9,7 @@ import {
   projectStatuses,
   type Project,
 } from '../data/workosMock'
+import { useAuth } from '../state/authStore'
 import { useWorkOSStore, type TaskSnapshot } from '../state/workosStore'
 import { useLocalDateKey } from '../utils/useLocalDateKey'
 
@@ -21,6 +22,7 @@ type ActionTask = {
 
 export default function DashboardPage() {
   const { completeTask, projects, restoreTask, tasks } = useWorkOSStore()
+  const { requireEditAccess } = useAuth()
   const todayKey = useLocalDateKey()
   const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle')
   const [undoSnapshot, setUndoSnapshot] = useState<TaskSnapshot | null>(null)
@@ -75,6 +77,7 @@ export default function DashboardPage() {
   }, [projects, tasks, todayKey])
 
   const handleCompleteTask = (taskId: string) => {
+    if (!requireEditAccess()) return
     const snapshot = completeTask(taskId)
     if (!snapshot) return
     setUndoSnapshot(snapshot)
@@ -84,6 +87,7 @@ export default function DashboardPage() {
   }
 
   const handleUndoTask = () => {
+    if (!requireEditAccess()) return
     if (!undoSnapshot) return
     restoreTask(undoSnapshot)
     setUndoSnapshot(null)
